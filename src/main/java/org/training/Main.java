@@ -1,6 +1,7 @@
 package org.training;
 
 import org.training.collections.MyArrayList;
+import org.training.collections.MyLinkedList.MyLinkedList;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,5 +20,25 @@ public class Main {
         System.out.println("remove by val: " + myArrayListTest);
         myArrayListTest.removeByIndex(0);
         System.out.println("remove by index: " + myArrayListTest);
+
+        System.out.println("----- MyLinkedList -----");
+        MyLinkedList<Integer> myLinkedListTest = new MyLinkedList<>();
+        myLinkedListTest.addLast(1);
+        myLinkedListTest.addLast(2);
+        myLinkedListTest.addLast(3);
+        System.out.println("addLast: " + myLinkedListTest);
+        myLinkedListTest.addFirst(0);
+        System.out.println("addFirst: " + myLinkedListTest);
+        myLinkedListTest.add(2, 99);
+        System.out.println("add by index: " + myLinkedListTest);
+        myLinkedListTest.removeFirst();
+        System.out.println("removeFirst: " + myLinkedListTest);
+        myLinkedListTest.removeLast();
+        System.out.println("removeLast: " + myLinkedListTest);
+        myLinkedListTest.remove(1);
+        System.out.println("remove by index: " + myLinkedListTest);
+        System.out.println("First: " + myLinkedListTest.getFirst());
+        System.out.println("Last: " + myLinkedListTest.getLast());
+        System.out.println("Size: " + myLinkedListTest.getSize());
     }
 }
