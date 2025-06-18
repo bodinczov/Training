@@ -5,49 +5,49 @@ public class MyArrayList<T> {
     private int size;
     private int capacity;
 
-    public MyArrayList(){
+    public MyArrayList() {
         T[] firstArray = (T[]) new Object[10];
         this.size = 0;
         this.capacity = 10;
         this.array = firstArray;
     }
 
-    public void add(T value){
-        if(capacity == size){
+    public void add(T value) {
+        if (capacity == size) {
             increaseCapacity();
         }
         array[size] = value;
         size++;
     }
 
-    public void increaseCapacity(){
+    public void increaseCapacity() {
         this.capacity *= 2;
         T[] newArray = (T[]) new Object[capacity];
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             newArray[i] = array[i];
         }
         this.array = newArray;
     }
 
-    public void add(int index, T value){
-        if(index < 0 || index > size){
+    public void add(int index, T value) {
+        if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException();
         }
-        if(size == capacity){
+        if (size == capacity) {
             increaseCapacity();
         }
-        for(int i = size; i > index; i--){
+        for (int i = size; i > index; i--) {
             array[i] = array[i - 1];
         }
         array[index] = value;
         size++;
     }
 
-    public void remove(T value){
+    public void remove(T value) {
         boolean removed = false;
-        for(int i = 0; i < size; i++){
-            if(!removed && array[i].equals(value)){
-                for(int j = i; j < size - 1; j++){
+        for (int i = 0; i < size; i++) {
+            if (!removed && array[i].equals(value)) {
+                for (int j = i; j < size - 1; j++) {
                     array[j] = array[j + 1];
                 }
                 array[size - 1] = null;
@@ -58,11 +58,11 @@ public class MyArrayList<T> {
         }
     }
 
-    public void remove(int index){
-        if(index < 0 || index >= size){
+    public void remove(int index) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
-        for(int i = index; i < size - 1; i++){
+        for (int i = index; i < size - 1; i++) {
             array[i] = array[i + 1];
         }
         array[size - 1] = null;
@@ -70,15 +70,15 @@ public class MyArrayList<T> {
     }
 
     @Override
-    public String toString(){
-        String result = "[";
-        for(int i = 0; i < size; i++){
-            result += String.valueOf(array[i]);
-            if(i != (size - 1)){
-                result += ", ";
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < size; i++) {
+            sb.append(array[i]);
+            if (i < size - 1) {
+                sb.append(", ");
             }
         }
-        result += "]";
-        return result;
+        sb.append(']');
+        return sb.toString();
     }
 }

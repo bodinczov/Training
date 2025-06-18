@@ -1,20 +1,23 @@
 package org.training;
 
 import org.training.collections.MyArrayList;
-import org.training.collections.MyHashMap.MyHashMap;
-import org.training.collections.MyLinkedList.MyLinkedList;
 
 public class Main {
     public static void main(String[] args) {
-       System.out.println("----- MyArrayList -----");
-       MyArrayList<Integer> a = new MyArrayList<Integer>();
-       for(int i = 0; i < 11; i++){
-           a.add(i);
-       }
-       System.out.println(a);
-       a.remove(10);
-       System.out.println(a);
-       a.add(10, 10);
-       System.out.println(a);
+        System.out.println("----- MyArrayList -----");
+        MyArrayList<Integer> myArrayListTest = new MyArrayList<>();
+        System.out.println(myArrayListTest);
+        for (int i = 0; i < 10; i++) {
+            myArrayListTest.add(i);
+        }
+        System.out.println("filled arr: " + myArrayListTest);
+        myArrayListTest.add(10);
+        System.out.println("add by val: " + myArrayListTest);
+        myArrayListTest.add(5, 99);
+        System.out.println("add by index: " + myArrayListTest);
+        myArrayListTest.remove(Integer.valueOf(99));
+        System.out.println("remove by val: " + myArrayListTest);
+        myArrayListTest.remove(0);
+        System.out.println("remove by index: " + myArrayListTest);
     }
 }
