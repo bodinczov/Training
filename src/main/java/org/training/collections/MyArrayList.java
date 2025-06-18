@@ -58,7 +58,7 @@ public class MyArrayList<T> {
         }
     }
 
-    public void remove(int index) {
+    public void removeByIndex(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }

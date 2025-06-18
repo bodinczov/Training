@@ -15,9 +15,9 @@ public class Main {
         System.out.println("add by val: " + myArrayListTest);
         myArrayListTest.add(5, 99);
         System.out.println("add by index: " + myArrayListTest);
-        myArrayListTest.remove(Integer.valueOf(99));
+        myArrayListTest.remove(99);
         System.out.println("remove by val: " + myArrayListTest);
-        myArrayListTest.remove(0);
+        myArrayListTest.removeByIndex(0);
         System.out.println("remove by index: " + myArrayListTest);
     }
 }
