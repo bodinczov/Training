@@ -46,18 +46,7 @@ public class MyLinkedList<T> {
             addFirst(value);
             return;
         }
-        Node<T> current;
-        if(index < size / 2){
-            current = first;
-            for(int i = 0; i < index; i++){
-                current = current.getNextValue();
-            }
-        } else {
-            current = last;
-            for(int i = size-1; i > index; i--){
-                current = current.getPrevValue();
-            }
-        }
+        Node<T> current = getNodeAt(index);
         Node<T> prevNode = current.getPrevValue();
         Node<T> newNode = new Node<>(prevNode, value, current);
         prevNode.setNextValue(newNode);
@@ -67,16 +56,14 @@ public class MyLinkedList<T> {
 
     public void removeFirst(){
         if(size >= 1) {
-            var newFirst = first.getNextValue();
-            this.first = newFirst;
+            this.first = first.getNextValue();
             size--;
         }
     }
 
     public void removeLast(){
         if(size >= 1) {
-            var newLast = last.getPrevValue();
-            this.last = newLast;
+            this.last = last.getPrevValue();
             size--;
         }
     }
@@ -92,18 +79,7 @@ public class MyLinkedList<T> {
             removeFirst();
             return;
         }
-        Node<T> current;
-        if(index < size / 2){
-            current = first;
-            for(int i = 0; i < index; i++){
-                current = current.getNextValue();
-            }
-        } else {
-            current = last;
-            for(int i = size-1; i > index; i--){
-                current = current.getPrevValue();
-            }
-        }
+        Node<T> current = getNodeAt(index);
         var prevNode = current.getPrevValue();
         var nextNode = current.getNextValue();
         prevNode.setNextValue(nextNode);
@@ -125,6 +101,23 @@ public class MyLinkedList<T> {
         sb.append("]");
         return sb.toString();
     }
+
+    private Node<T> getNodeAt(int index) {
+        if(index < size / 2){
+            Node<T> current = first;
+            for(int i = 0; i < index; i++){
+                current = current.getNextValue();
+            }
+            return current;
+        } else {
+            Node<T> current = last;
+            for(int i = size - 1; i > index; i--){
+                current = current.getPrevValue();
+            }
+            return current;
+        }
+    }
+
 
     public T getFirst(){
         return first.getValue();
