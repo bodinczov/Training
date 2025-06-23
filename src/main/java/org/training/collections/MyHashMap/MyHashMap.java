@@ -5,22 +5,24 @@ import java.util.Objects;
 public class MyHashMap<K, V> {
     private Node<K, V>[] bucket;
     private int size;
+    private final int DEFAULT_CAPACITY = 16;
+    private final double LOAD_FACTOR = 0.75;
 
     public MyHashMap(){
-        bucket = (Node<K, V>[]) new Node[16];
+        bucket = (Node<K, V>[]) new Node[DEFAULT_CAPACITY];
     }
 
     public int computeHash(K key){
         return key == null ? 0 : key.hashCode();
     }
 
-    public int bucketIndex(int hash, int capacity){
-        return Math.floorMod(hash, capacity);
+    public int bucketIndex(int hash){
+        return Math.floorMod(hash, bucket.length);
     }
 
     public void put(K key, V value){
         int hash = computeHash(key);
-        int index = bucketIndex(hash, bucket.length);
+        int index = bucketIndex(hash);
         Node<K, V> currentNode = bucket[index];
         while(currentNode != null){
             if(currentNode.getHash() == hash && Objects.equals(currentNode.getKey(), key)){
@@ -31,14 +33,14 @@ public class MyHashMap<K, V> {
         }
         bucket[index] = new Node<>(hash, key, value, bucket[index]);
         size++;
-        if(size > bucket.length * 0.75){
+        if(size > bucket.length * LOAD_FACTOR){
             resize();
         }
     }
 
     public V get(K key){
         int hash = computeHash(key);
-        int index = bucketIndex(hash, bucket.length);
+        int index = bucketIndex(hash);
         Node<K, V> currentNode = bucket[index];
         while(currentNode != null){
             if(currentNode.getHash() == hash && Objects.equals(currentNode.getKey(), key)){
@@ -51,7 +53,7 @@ public class MyHashMap<K, V> {
 
     public void remove(K key){
         int hash = computeHash(key);
-        int index = bucketIndex(hash, bucket.length);
+        int index = bucketIndex(hash);
         Node<K, V> currentNode = bucket[index];
         Node<K, V> previousNode = null;
         while(currentNode != null){
@@ -81,19 +83,19 @@ public class MyHashMap<K, V> {
         return size == 0;
     }
 
-    private void resize(){
+    private void resize() {
         int newCapacity = bucket.length * 2;
-        Node<K, V>[] newBucket = (Node<K, V>[]) new Node[newCapacity];
-        for(Node<K, V> head : bucket){
-            while(head != null){
+        Node<K, V>[] oldBucket = bucket;
+        bucket = (Node<K, V>[]) new Node[newCapacity];
+        for (Node<K, V> head : oldBucket) {
+            while (head != null) {
                 Node<K, V> next = head.getNext();
-                int newIndex = bucketIndex(head.getHash(), newCapacity);
-                head.setNext(newBucket[newIndex]);
-                newBucket[newIndex] = head;
+                int newIndex = bucketIndex(head.getHash());
+                head.setNext(bucket[newIndex]);
+                bucket[newIndex] = head;
                 head = next;
             }
         }
-        bucket = newBucket;
     }
 
     @Override
