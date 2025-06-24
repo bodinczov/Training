@@ -1,8 +1,6 @@
 package org.training;
 
 import org.training.collections.MyArrayList;
-import org.training.collections.MyLinkedList.MyLinkedList;
-import org.training.collections.MyHashMap.MyHashMap;
 
 public class Main {
     public static void main(String[] args) {
