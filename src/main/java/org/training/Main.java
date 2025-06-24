@@ -3,6 +3,7 @@ package org.training;
 import org.training.collections.MyArrayList;
 import org.training.collections.MyLinkedList.MyLinkedList;
 import org.training.collections.MyHashMap.MyHashMap;
+import org.training.collections.MyHashSet.MyHashSet;
 
 public class Main {
     public static void main(String[] args) {
@@ -63,5 +64,31 @@ public class Main {
         myHashMap.put(null, 999);
         System.out.println("null key put: " + myHashMap);
         System.out.println("get null key: " + myHashMap.get(null));
+
+        System.out.println("----- MyHashSet -----");
+        MyHashSet<String> myHashSet = new MyHashSet<>();
+        System.out.println("init: " + myHashSet);
+        myHashSet.put("Apple");
+        myHashSet.put("Banana");
+        myHashSet.put("Cherry");
+        myHashSet.put("Date");
+        System.out.println("after put: " + myHashSet);
+        System.out.println("contains 'Banana': " + myHashSet.contains("Banana"));
+        System.out.println("contains 'Orange': " + myHashSet.contains("Orange"));
+        myHashSet.remove("Apple");
+        System.out.println("after remove 'Apple': " + myHashSet);
+        try { // для чека на невозможность добавить дубликат
+            myHashSet.put("Banana");
+        } catch (RuntimeException e) {
+            System.out.println("duplicate insert: " + e.getMessage());
+        }
+        myHashSet.put(null);
+        System.out.println("after put null: " + myHashSet);
+        System.out.println("contains null: " + myHashSet.contains(null));
+        for (int i = 0; i < 20; i++) {
+            myHashSet.put("Item" + i);
+        }
+        System.out.println("resize check: " + myHashSet);
+
     }
 }

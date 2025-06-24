@@ -1,31 +1,33 @@
 package org.training.collections.MyHashSet;
 
 import java.util.Objects;
-
+//                                            ToDo: make tests in main
 public class MyHashSet<T> {
     private Node<T>[] bucket;
     private int size;
+    private final int DEFAULT_CAPACITY = 16;
+    private final double LOAD_FACTOR = 0.75;
 
     public MyHashSet(){
-        bucket = (Node<T>[]) new Node[16];
+        bucket = (Node<T>[]) new Node[DEFAULT_CAPACITY];
     }
 
     public int computeHash(T value){
         return value == null ? 0 : value.hashCode();
     }
 
-    public int bucketIndex(int hash, int capacity){
-        return Math.floorMod(hash, capacity);
+    public int bucketIndex(int hash){
+        return Math.floorMod(hash, bucket.length);
     }
 
     public void put(T value){
         int hash = computeHash(value);
-        int index = bucketIndex(hash, bucket.length);
+        int index = bucketIndex(hash);
         Node<T> currentNode = bucket[index];
         if(currentNode == null){
             bucket[index] = new Node<T>(hash, value, null);
             size++;
-                if(size > bucket.length * 0.75){
+                if(size > bucket.length * LOAD_FACTOR){
                     resize();
                 }
             return;
@@ -37,7 +39,7 @@ public class MyHashSet<T> {
             if(currentNode.getNext() == null){
                 currentNode.setNext(new Node<T>(hash, value, null));
                 size++;
-                if(size > bucket.length * 0.75){
+                if(size > bucket.length * LOAD_FACTOR){
                     resize();
                 }
                 return;
@@ -48,7 +50,7 @@ public class MyHashSet<T> {
 
     public boolean contains(T value){
         int hash = computeHash(value);
-        int index = bucketIndex(hash, bucket.length);
+        int index = bucketIndex(hash);
         Node<T> currentNode = bucket[index];
         for(int i = 0; currentNode != null; i++){
             if(currentNode.getHash() == hash && Objects.equals(currentNode.getValue(), value)){
@@ -61,7 +63,7 @@ public class MyHashSet<T> {
 
     public void remove(T value){
         int hash = computeHash(value);
-        int index = bucketIndex(hash, bucket.length);
+        int index = bucketIndex(hash);
         Node<T> currentNode = bucket[index];
         Node<T> previousNode = null;
 
@@ -80,20 +82,19 @@ public class MyHashSet<T> {
         }
     }
 
-    public void resize(){
+    private void resize() {
         int newCapacity = bucket.length * 2;
-        Node<T>[] newBucket = (Node<T>[]) new Node[newCapacity];
-        for (int i = 0; i < bucket.length; i++) {
-            Node<T> currentNode = bucket[i];
-            for (int j = 0; currentNode != null; j++) {
-                Node<T> nextNode = currentNode.getNext();
-                int newIndex = bucketIndex(currentNode.getHash(), newCapacity);
-                currentNode.setNext(newBucket[newIndex]);
-                newBucket[newIndex] = currentNode;
-                currentNode = nextNode;
+        Node<T>[] oldBucket = bucket;
+        bucket = (Node<T>[]) new Node[newCapacity];
+        for(Node<T> head : oldBucket){
+            while(head != null){
+                Node<T> next = head.getNext();
+                int newIndex = bucketIndex(head.getHash());
+                head.setNext(bucket[newIndex]);
+                bucket[newIndex] = head;
+                head = next;
             }
         }
-        bucket = newBucket;
     }
 
     @Override
