@@ -4,6 +4,15 @@ import org.training.collections.MyArrayList;
 import org.training.collections.MyLinkedList.MyLinkedList;
 import org.training.collections.MyHashMap.MyHashMap;
 import org.training.collections.MyHashSet.MyHashSet;
+import org.training.patterns.*;
+import org.training.patterns.AbstractFactory.*;
+import org.training.patterns.Adapter.*;
+import org.training.patterns.Decorator.*;
+import org.training.patterns.Facade.*;
+import org.training.patterns.Factory.*;
+import org.training.patterns.Builder.User;
+import org.training.patterns.Observer.*;
+import org.training.patterns.Strategy.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -90,5 +99,90 @@ public class Main {
         }
         System.out.println("resize check: " + myHashSet);
 
+        demoSingleton();
+        demoFactory();
+        demoAbstractFactory();
+        demoBuilder();
+        demoAdapter();
+        demoDecorator();
+        demoFacade();
+        demoObserver();
+        demoStrategy();
+    }
+    static void demoSingleton() {
+        System.out.println("\n=== Singleton ===");
+        Singleton first = Singleton.getInstance();
+        Singleton second = Singleton.getInstance();
+        first.showInstance();
+        System.out.println("is inst equals: " + (first == second));
+    }
+
+    static void demoFactory() {
+        System.out.println("\n=== Factory Method ===");
+        ConverterFactory factory = new ConverterFactory();
+        Converter lenConv = factory.create("length");
+        Converter weightConv = factory.create("weight");
+        System.out.println("5 km = " + lenConv.convert(5) + " m");
+        System.out.println("3.2 kg = " + weightConv.convert(3.2) + " g");
+    }
+
+    static void demoAbstractFactory() {
+        System.out.println("\n=== Abstract Factory ===");
+        GUIFactory winFactory = new WinFactory();
+        GUIFactory macFactory = new MacFactory();
+        System.out.println("Windows UI:");
+        new Application(winFactory).renderUI();
+        System.out.println("Mac UI:");
+        new Application(macFactory).renderUI();
+    }
+
+    static void demoBuilder() {
+        System.out.println("\n=== Builder ===");
+        User user = new User.Builder()
+                .name("Alex")
+                .age(25)
+                .email("alex@example.com")
+                .build();
+        System.out.println("Built user: " + user);
+    }
+
+    static void demoAdapter() {
+        System.out.println("\n=== Adapter ===");
+        Printer printer = new PrinterAdapter(new LegacyPrinter());
+        printer.print("Hello, Adapter pattern!");
+    }
+
+    static void demoDecorator() {
+        System.out.println("\n=== Decorator ===");
+        TemperatureSource basic = new BasicWeatherStation();
+        TemperatureSource rounded = new RoundedTemperatureDecorator(basic);
+        System.out.println("Raw temperature: " + basic.getTemperature());
+        System.out.println("Rounded temperature: " + rounded.getTemperature());
+    }
+
+    static void demoFacade() {
+        System.out.println("\n=== Facade ===");
+        WeatherFacade facade = new WeatherFacade();
+        Report report = facade.getWeatherReport();
+        System.out.println(report.temp() + " " + report.humid() + " " + report.windSpeed());
+    }
+
+    static void demoObserver() {
+        System.out.println("\n=== Observer ===");
+        WeatherStation station = new WeatherStation();
+        PhoneDisplay display = new PhoneDisplay();
+        station.addObserver(display);
+        station.setMeasurements(24.3f, 60.1f);
+    }
+
+    static void demoStrategy() {
+        System.out.println("\n=== Strategy ===");
+        WeatherDisplay tempDisplay = new WeatherDisplay(new TempOnlyDisplay());
+        WeatherDisplay humidDisplay = new WeatherDisplay(new HumidityOnlyDisplay());
+        WeatherDisplay fullDisplay = new WeatherDisplay(new FullDisplay());
+        float t = 22.8f, h = 58.0f;
+        tempDisplay.update(t, h);
+        humidDisplay.update(t, h);
+        fullDisplay.update(t, h);
     }
 }

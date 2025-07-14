@@ -1,6 +1,6 @@
-package org.training.patterns;
+package org.training.patterns.Builder;
 
-class User {
+public class User {
     private String name;
     private int age;
     private String email;

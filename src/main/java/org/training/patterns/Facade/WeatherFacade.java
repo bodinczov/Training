@@ -1,21 +1,6 @@
-package org.training.patterns;
+package org.training.patterns.Facade;
 
-class Thermometer {
-    public float readTemperature() {
-        return 23.56f;
-    }
-}
-class Hygrometer {
-    public float readHumidity() {
-        return 55.2f;
-    }
-}
-class WindSensor {
-    public float readSpeed() {
-        return 4.5f;
-    }
-}
-class WeatherFacade {
+public class WeatherFacade {
     private final Thermometer thermometer = new Thermometer();
     private final Hygrometer hygrometer = new Hygrometer();
     private final WindSensor windSensor = new WindSensor();
@@ -34,4 +19,3 @@ class WeatherFacade {
                 windSensor.readSpeed());
     }
 }
-record Report(float temp, float humid, float windSpeed){}
